@@ -16,8 +16,8 @@ steps:
   inputs:
     mavenPomFile: 'pom.xml'
     mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'Path'
-    jdkDirectory: '/usr/lib/jvm/java-21-openjdk-amd64'
+    #javaHomeOption: 'Path'
+    #jdkDirectory: '/usr/lib/jvm/java-21-openjdk-amd64'
     publishJUnitResults: false
     goals: 'clean package'
 

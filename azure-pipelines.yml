@@ -3,21 +3,38 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
-trigger: none
+trigger:
+  branches:
+    include:
+    - main
 #- main
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: Maven@3
+- task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
     mavenOptions: '-Xmx3072m'
     javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    jdkVersionOption: '1.17'
+    #jdkArchitectureOption: 'x64'
+    publishJUnitResults: false
+    #testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
 
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: 'ssh-local'
+    sourceFolder: '$(System.DefaultWorkingDirectory)'
+    contents: '**/target/*.jar'
+    targetFolder: '/home/kaif/azure-vm-java-app'
+
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'ssh-local'
+    runOptions: 'commands'
+    commands: |
+      cd /home/kaif/azure-vm-java-app
+      java -jar target/*.jar

@@ -1,20 +1,41 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
 trigger:
-- main
+  branches:
+    include:
+    - main
+#- main
 
 pool:
-  vmImage: ubuntu-latest
+  name: kaif-selfhosted
+  #vmImage: ubuntu-latest
 
 steps:
-
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
-    goals: 'clean package'
+    mavenOptions: '-Xmx3072m'
+    #javaHomeOption: 'JDKVersion'
+    #jdkVersionOption: '1.21'
+    #jdkArchitectureOption: 'x64'
     publishJUnitResults: false
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.17'
+    #testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    goals: 'package'
 
-- task: PublishBuildArtifacts@1
+- task: CopyFilesOverSSH@0
   inputs:
-    PathtoPublish: 'target'
-    ArtifactName: 'drop'
+    sshEndpoint: 'ssh-local'
+    sourceFolder: '$(System.DefaultWorkingDirectory)'
+    contents: '**/target/*.jar'
+    targetFolder: '/home/kaif/azure-vm-java-app'
+
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'ssh-local'
+    runOptions: 'commands'
+    commands: |
+      cd /home/kaif/azure-vm-java-app
+      java -jar target/*.jar

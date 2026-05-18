@@ -35,6 +35,6 @@ steps:
     commands: |
       cd /home/kaif/azure-vm-java-app
       pkill -f "java -jar" || true
-      nohup java -jar target/simple-java-app-1.0.jar > app.log 2>&1 &
+      java -jar target/simple-java-app-1.0.jar > app.log 2>&1 &
       sleep 2
       curl http://localhost:8080/ || echo "Application starting..."

@@ -34,5 +34,7 @@ steps:
     runOptions: 'commands'
     commands: |
       cd /home/kaif/azure-vm-java-app
+      pwd && sleep 6
       pkill -f "java -jar" || true
-      nohup java -jar target/simple-java-app-1.0.jar > app.log 2>&1 < /dev/null &
+      nohup bash -c 'java -jar target/simple-java-app-1.0.jar' \
+      > app.log 2>&1 < /dev/null &

@@ -10,7 +10,8 @@ trigger:
 #- main
 
 pool:
-  vmImage: ubuntu-latest
+  name: kaif-selfhosted
+  #vmImage: ubuntu-latest
 
 steps:
 - task: Maven@4

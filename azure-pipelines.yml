@@ -12,17 +12,12 @@ pool:
   name: kaif-selfhosted
 
 steps:
-- task: JavaToolInstaller@0
-  inputs:
-    versionSpec: '21'
-    jdkArchitectureOption: 'x64'
-    jdkSourceOption: 'PreInstalled'
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
     mavenOptions: '-Xmx3072m'
-    #javaHomeOption: 'JDKVersion'
-    #jdkVersionOption: '1.21'
+    javaHomeOption: 'Path'
+    jdkDirectory: '/usr/lib/jvm/java-21-openjdk-amd64'
     publishJUnitResults: false
     goals: 'clean package'
 

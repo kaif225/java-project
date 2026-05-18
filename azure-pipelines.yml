@@ -7,23 +7,19 @@ trigger:
   branches:
     include:
     - main
-#- main
 
 pool:
   name: kaif-selfhosted
-  #vmImage: ubuntu-latest
 
 steps:
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
     mavenOptions: '-Xmx3072m'
-    #javaHomeOption: 'JDKVersion'
-    #jdkVersionOption: '1.21'
-    #jdkArchitectureOption: 'x64'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.21'
     publishJUnitResults: false
-    #testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
+    goals: 'clean package'
 
 - task: CopyFilesOverSSH@0
   inputs:
@@ -38,4 +34,7 @@ steps:
     runOptions: 'commands'
     commands: |
       cd /home/kaif/azure-vm-java-app
-      java -jar target/*.jar
+      pkill -f "java -jar" || true
+      nohup java -jar target/simple-java-app-1.0.jar > app.log 2>&1 &
+      sleep 2
+      curl http://localhost:8080/ || echo "Application starting..."

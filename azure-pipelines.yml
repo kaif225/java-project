@@ -16,8 +16,8 @@ steps:
   inputs:
     mavenPomFile: 'pom.xml'
     mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.21'
+    #javaHomeOption: 'JDKVersion'
+    #jdkVersionOption: '1.21'
     publishJUnitResults: false
     goals: 'clean package'
 

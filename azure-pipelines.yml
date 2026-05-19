@@ -9,7 +9,8 @@ trigger:
     - main
 
 pool:
-  name: kaif-selfhosted
+  vmImage: ubuntu-latest
+  #name: kaif-selfhosted
 
 steps:
 - task: Maven@4
@@ -23,14 +24,16 @@ steps:
 
 - task: CopyFilesOverSSH@0
   inputs:
-    sshEndpoint: 'ssh-local'
+   #sshEndpoint: 'azurevm'
+    sshEndpoint: 'azurevm'
     sourceFolder: '$(System.DefaultWorkingDirectory)'
     contents: '**/target/*.jar'
-    targetFolder: '/home/kaif/azure-vm-java-app'
+    targetFolder: '/home/azureuser/azure-vm-java-app'
 
 - task: SSH@0
   inputs:
-    sshEndpoint: 'ssh-local'
+    #sshEndpoint: 'azurevm'
+    sshEndpoint: 'azurevm'
     runOptions: 'commands'
     commands: |
-      /home/kaif/azure-vm-java-app/start-app.sh
+      /home/azureuser/azure-vm-java-app/start-app.sh

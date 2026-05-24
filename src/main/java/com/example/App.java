@@ -11,7 +11,7 @@ public class App {
 
     @GetMapping("/")
     public String hello() {
-        return "Hello from Azure DevOps CI/CD Pipeline!\nMaven Build Successful";
+        return "Welcome to Nettech!\nMaven Build Successful";
     }
 
     @GetMapping("/api/health")

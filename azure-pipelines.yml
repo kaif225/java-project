@@ -25,15 +25,15 @@ steps:
 - task: CopyFilesOverSSH@0
   inputs:
    #sshEndpoint: 'azurevm'
-    sshEndpoint: 'azurevm'
+    sshEndpoint: 'vm1'
     sourceFolder: '$(System.DefaultWorkingDirectory)'
     contents: '**/target/*.jar'
-    targetFolder: '/home/azureuser/azure-vm-java-app'
+    targetFolder: '/home/kaif/azure-vm-java-app'
 
 - task: SSH@0
   inputs:
     #sshEndpoint: 'azurevm'
-    sshEndpoint: 'azurevm'
+    sshEndpoint: 'vm1'
     runOptions: 'commands'
     commands: |
-      /home/azureuser/azure-vm-java-app/start-app.sh
+      /home/kaif/azure-vm-java-app/start-app.sh
